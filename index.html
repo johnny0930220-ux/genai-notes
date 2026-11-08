@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>生成式 AI 課程筆記</title>
+<meta name="description" content="生成式 AI 課程的每週重點整理">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="index.html" aria-current="page">首頁</a></li><li><a href="keywords.html">關鍵字索引</a></li><li><a href="about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">TAICA 生成式 AI 課程</p><h1>生成式 AI 課程筆記</h1></header><p>這裡是我修「生成式 AI：文字與圖像生成的原理與實務」的每週筆記。每篇都從課堂投影片整理而來，標了投影片頁碼，方便回去對照。</p>
+<p>整學期的主線只有一句話：</p>
+<blockquote class="callout"><p>AI Agent 其實只是「教 AI 做事的方法」。</p></blockquote>
+<p>課程用一條路線串起所有名詞：Chat Bot → Prompt Engineering → Context Engineering → Harness Engineering → Loop Engineering → Graph Engineering → AI Agent。前半學期先把原理打底（神經網路、GAN、LLM、Transformer），後半學期開始動手做對話機器人、RAG 和 AI Agent。</p>
+<h2 id="怎麼使用這個網站">怎麼使用這個網站</h2>
+<ul><li>左邊目錄依週次排列，每篇的格式都一樣：課堂重點、重要名詞、本週作業、和其他週的關係、延伸思考。</li><li>文中的橘色小字（例如 p.12）是投影片頁碼。</li><li>左上的搜尋框可以找標題、關鍵字和內文，按 <code>/</code> 可以直接開始輸入。</li><li><a href="keywords.html">關鍵字索引</a> 把同一個概念出現在哪幾週整理在一起。</li></ul><h2 id="weeks">每週筆記</h2><ul class="cards"><li><a class="card" href="notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><strong>如何不焦慮地學 AI</strong><span class="card-sum">懂原理就不焦慮：AI 只是呆萌型機器人，AI Agent 就是教 AI 用我們的方法做事。</span></a></li><li><a class="card" href="notes/w02-neural-network-basics.html"><span class="wk">W02</span><strong>神經網路的概念</strong><span class="card-sum">神經網路是一台函數學習機：用 loss 衡量答得多差，再用梯度下降一點一點修正參數。</span></a></li><li><a class="card" href="notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><strong>AI 為什麼每次都不一樣？</strong><span class="card-sum">創作型 AI 靠隨機性產生不同結果：GAN 從隨機 latent 出發，語言模型則是依機率抽字。</span></a></li><li><a class="card" href="notes/w04-next-token.html"><span class="wk">W04</span><strong>LLM 只是在猜下一個字？</strong><span class="card-sum">文字生成 AI 就是一直預測下一個字，選字方式決定它有多隨機，prompt 要給正確資訊和清楚指引。</span></a></li><li><a class="card" href="notes/w05-transformer-attention.html"><span class="wk">W05</span><strong>AI 怎麼記得前面說過什麼？</strong><span class="card-sum">拆解 RNN 和 Transformer 的記憶方式：QKV 注意力、位置編碼和讓網路更穩的設計。</span></a></li><li><a class="card" href="notes/w06-build-your-chatbot.html"><span class="wk">W06</span><strong>打造自己的對話機器人</strong><span class="card-sum">用 system prompt 給 LLM 人設，再用 AISuite 寫程式，打造自己的對話機器人。</span></a></li><li><a class="card" href="notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><strong>讓 AI 看懂你的世界</strong><span class="card-sum">RAG 先找出相關資料再交給 LLM 回答；LLM Wiki 則讓 AI 自己整理知識庫。</span></a></li><li><a class="card" href="notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><strong>教 AI 做事的方法</strong><span class="card-sum">AI Agent 就是教 AI 用我們做事的方法，吳恩達整理出四種設計模式。</span></a></li><li><a class="card" href="notes/w09-agentic-work.html"><span class="wk">W09</span><strong>換你當老闆</strong><span class="card-sum">從「問 AI」變成「交辦給 AI」：靠 harness 和員工手冊，讓 AI Agent 真的動手把工作做完。</span></a></li></ul>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"></aside>
+</div>
+<script>window.SITE_PREFIX = "";</script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

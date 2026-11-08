@@ -1,0 +1,3 @@
+# 本網站不使用 Jekyll，網頁都由 build.py 產生。
+# 這個設定是保險：就算 .nojekyll 沒有上傳成功，Jekyll 也不會處理原稿資料夾。
+exclude: [content, templates, build.py, AGENTS.md, CLAUDE.md, README.md]
