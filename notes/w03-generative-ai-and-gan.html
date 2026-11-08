@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W03 AI 為什麼每次都不一樣？ · 生成式 AI 課程筆記</title>
+<meta name="description" content="創作型 AI 靠隨機性產生不同結果：GAN 從隨機 latent 出發，語言模型則是依機率抽字。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html" aria-current="page"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 3 週</p><h1>AI 為什麼每次都不一樣？</h1><p class="summary">創作型 AI 靠隨機性產生不同結果：GAN 從隨機 latent 出發，語言模型則是依機率抽字。</p><div class="chips"><a class="chip" href="../keywords.html#gan">GAN</a><a class="chip" href="../keywords.html#latent-vector">latent vector</a><a class="chip" href="../keywords.html#stylegan">StyleGAN</a><a class="chip" href="../keywords.html#cross-entropy">cross entropy</a><a class="chip" href="../keywords.html#kl-divergence">KL divergence</a><a class="chip" href="../keywords.html#softmax">softmax</a><a class="chip" href="../keywords.html#呆萌型-ai-機器人">呆萌型 AI 機器人</a></div><p class="source">資料來源：課堂投影片《03 AI 為什麼每次都不一樣？》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>同一個輸入有很多種好答案時，硬訓練一個函數只會學到「平均」，結果四不像。</p></blockquote>
+<h3 id="創作型-ai-的難題">創作型 AI 的難題</h3>
+<p>如果直接訓練「輸入『一個可愛的女孩』、輸出一張圖」，問題是同一句話有無數種合理的圖，這是一對多，不是函數。硬要訓練，模型會輸出所有答案的平均，畫出來四不像。<span class="cite">p.4–8</span></p>
+<p>解法是多給一個隨機產生的 <strong>latent tensor（潛張量）</strong>，代表創作者天馬行空的「想法」。輸入的想法不同，輸出的作品就不同。<span class="cite">p.9–10</span></p>
+<h3 id="gan-生成器和鑑別器的對抗">GAN：生成器和鑑別器的對抗</h3>
+<p>GAN 是 Ian Goodfellow 等人在 2014 年提出的。Yann LeCun 在 2016 年說，對抗式訓練是深度學習近年最重要的發展。<span class="cite">p.12–14</span></p>
+<p>GAN 同時訓練兩個神經網路<span class="cite">p.18–22</span>：</p>
+<ol><li><strong>鑑別器</strong>：學「品味」，看到真實作品輸出 1，看到生成器的作品輸出 0。</li><li><strong>生成器</strong>：從隨機的 latent <span class="math">\(z\)</span> 生出作品，目標是讓鑑別器打出接近 1 的分數。訓練生成器時，鑑別器的參數固定不動。</li></ol>
+<p>兩者輪流訓練、互相較勁。訓練完成時，鑑別器分不出哪個是真的。後來的 WGAN 改善了 GAN 的崩壞問題，也就是生成器發現某張圖會過關，就一直只生那一張。<span class="cite">p.29–33</span></p>
+<h3 id="gan-的高光時刻">GAN 的高光時刻</h3>
+<ul><li><strong>Progressive GAN</strong>：直接生高解析度很難，所以從 4×4 開始，一路學到 1024×1024。<span class="cite">p.36–39</span></li><li><strong>StyleGAN</strong>：把 latent 轉成風格向量 <span class="math">\(w\)</span>，在每一層用 AdaIN 加進去，像 prompt 一樣不斷提醒 AI 要怎麼畫，因此可以分開控制內容和風格。<span class="cite">p.41–48</span></li><li><strong>Pix2pix</strong>：隨手畫的線條變街景、衛星圖變地圖，輸入和輸出要一起送進鑑別器。<span class="cite">p.50–52</span></li><li><strong>CycleGAN</strong>：資料不需要配對，就能做到馬變斑馬這類轉換。<span class="cite">p.53–57</span></li></ul>
+<p>GAN 一度被認為是電腦創作的巔峰，直到 diffusion models 出現。<span class="cite">p.58</span></p>
+<h3 id="cross-entropy-分類問題更適合的-loss">Cross entropy：分類問題更適合的 loss</h3>
+<p>正確答案是 <code>[1,0,0]</code> 時，模型答 <code>[0.6,0.3,0.1]</code> 和 <code>[0.6,0.2,0.2]</code>，兩個都是 60% 猜對，但用均方誤差算出來的 loss 不一樣。我們其實只在意正確答案那一類拿到多少分。<span class="cite">p.62–63</span></p>
+<p>資訊量（驚訝指數）定義為 <span class="math">\(-\log p\)</span>：機率越低的事發生，越讓人驚訝。分類問題的 cross entropy 化簡後就是 <span class="math">\(-\log \hat{y}_i\)</span>，正確答案的機率給得越低，扣分越重。<span class="cite">p.64–68、p.78–80</span></p>
+<p>Entropy 是平均資訊量。KL 散度是 cross entropy 減掉真實分布的 entropy，兩個分布一樣時為 0。要讓學生模型學老師模型的 soft target（例如知識蒸餾），就適合用 KL 散度。<span class="cite">p.72–90</span></p>
+<h3 id="隨機性從哪裡來">隨機性從哪裡來</h3>
+<p>八哥辨識選最高分，同一張照片永遠得到同一個答案。但也可以<strong>依機率抽</strong>：60% 抽土八哥、30% 抽白尾八哥。辨識八哥這樣做沒道理，換成咖啡推薦就合理了。<span class="cite">p.93–95</span></p>
+<p>語言模型正是這樣：看前面的字，用 softmax 算出每個字的機率，再抽下一個字。所以老師認為「鑑別式 AI」和「生成式 AI」在原理上是一樣的。<span class="cite">p.96–98</span></p>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>latent vector</strong>：隨機產生的向量，代表生成模型的「想法」，是輸出多樣性的來源。</li><li><strong>GAN</strong>：生成對抗網路，由生成器和鑑別器互相對抗來訓練。</li><li><strong>StyleGAN</strong>：在生成過程每一層注入風格向量的 GAN，可以控制生成內容的風格。</li><li><strong>CycleGAN</strong>：不需要配對資料的圖像轉換 GAN。</li><li><strong>cross entropy</strong>：衡量兩個機率分布差距的方式，分類問題常用的 loss。</li><li><strong>KL divergence</strong>：cross entropy 減去真實分布的 entropy，兩分布相同時為 0。</li><li><strong>知識蒸餾</strong>：讓小模型（學生）學習大模型（老師）輸出的機率分布。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>設計你自己的「呆一布」：想一個真心想要、越貼近生活越好的 AI 機器人，寫下它的輸入、輸出，以及為什麼想要它。可以用投影片的 AI Canvas 整理：問題、需要的能力、輸入特徵、輸出（要是 tensor）、資料夠不夠、領域專家的期望。<span class="cite">p.100–101</span></p>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p>延續 <a href="w02-neural-network-basics.html">W02 神經網路的概念</a> 的 softmax 和 loss function。最後一節「依機率抽字」，就是 <a href="w04-next-token.html">W04 LLM 只是在猜下一個字？</a> 的起點。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>GAN 被 diffusion models 取代的主要原因是什麼？</li><li>如果語言模型每次都選最高分的字，生成的文字會變成什麼樣子？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w02-neural-network-basics.html">W02 神經網路的概念</a><a class="chip chip-rel" href="../notes/w04-next-token.html">W04 LLM 只是在猜下一個字？</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w02-neural-network-basics.html"><small>上一週</small>神經網路的概念</a><a class="next" href="../notes/w04-next-token.html"><small>下一週</small>LLM 只是在猜下一個字？</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#創作型-ai-的難題">創作型 AI 的難題</a></li><li class="l3"><a href="#gan-生成器和鑑別器的對抗">GAN：生成器和鑑別器的對抗</a></li><li class="l3"><a href="#gan-的高光時刻">GAN 的高光時刻</a></li><li class="l3"><a href="#cross-entropy-分類問題更適合的-loss">Cross entropy：分類問題更適合的 loss</a></li><li class="l3"><a href="#隨機性從哪裡來">隨機性從哪裡來</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

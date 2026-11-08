@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W01 如何不焦慮地學 AI · 生成式 AI 課程筆記</title>
+<meta name="description" content="懂原理就不焦慮：AI 只是呆萌型機器人，AI Agent 就是教 AI 用我們的方法做事。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html" aria-current="page"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 1 週</p><h1>如何不焦慮地學 AI</h1><p class="summary">懂原理就不焦慮：AI 只是呆萌型機器人，AI Agent 就是教 AI 用我們的方法做事。</p><div class="chips"><a class="chip" href="../keywords.html#呆萌型-ai-機器人">呆萌型 AI 機器人</a><a class="chip" href="../keywords.html#ai-agent">AI Agent</a><a class="chip" href="../keywords.html#colab">Colab</a><a class="chip" href="../keywords.html#jupyter-notebook">Jupyter Notebook</a><a class="chip" href="../keywords.html#markdown">Markdown</a></div><p class="source">資料來源：課堂投影片《01 如何不焦慮地學 AI》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>這門課的兩個特色：教 AI 用你的方法做事，以及用原理對抗焦慮。</p></blockquote>
+<h3 id="這門課怎麼進行">這門課怎麼進行</h3>
+<p>課程是 TAICA 跨校課程「生成式 AI：文字與圖像生成的原理與實務」，每週二直播。前兩小時老師上課，最後一小時是閃電秀、實作和助教時間。<span class="cite">p.4、p.26</span></p>
+<p>成績由作業、期末專案和上課參與組成。作業原則上每週一次，截止時間是兩週後，題型有發想題、實作題和程式題。<span class="cite">p.22、p.25</span></p>
+<p>老師鼓勵用生成式 AI 寫作業，但<strong>不能直接複製貼上</strong>。只下一次 prompt 就能生出來的作業不被接受。<span class="cite">p.21</span></p>
+<p>期末專案形式自由：可以是程式專案、用生成式 AI 解決問題的應用方案，或是一份生成式 AI 的教學。<span class="cite">p.23</span></p>
+<h3 id="為什麼要強調原理">為什麼要強調原理</h3>
+<p>老師把學 AI 的焦慮分成三種：怕被 AI 取代、新工具太多不知道學哪個、覺得 AI 很難。他的回答是：懂原理就會發現，語言模型本質上是「呆萌型 AI 機器人」，各家大型語言模型的基礎其實差不多。<span class="cite">p.39–42</span></p>
+<p>懂原理的好處是知道 AI 的限制、知道為什麼某些 prompt 比較有效，也不用一直煩惱 A 模型是不是比 B 模型強。<span class="cite">p.43</span></p>
+<h3 id="課程地圖-從-chat-bot-到-ai-agent">課程地圖：從 Chat Bot 到 AI Agent</h3>
+<p>投影片用一條路線串起整學期：Chat Bot → Prompt Engineering → Context Engineering → Harness Engineering → Loop Engineering → Graph Engineering → AI Agent。這些名詞聽起來很嚇人，但結論只有一句：<strong>AI Agent 其實就是「教 AI 做事的方法」</strong>。<span class="cite">p.42</span></p>
+<p>這學期要學的內容包括神經網路、GAN、大型語言模型的原理、RAG、AI Agent，以及生成圖像的 Diffusion Models。<span class="cite">p.44</span></p>
+<h3 id="現代-ai-是-呆萌型-ai-機器人">現代 AI 是「呆萌型 AI 機器人」</h3>
+<p>AI 模型不會自己知道要做什麼，要由我們決定<strong>輸入是什麼、輸出是什麼</strong>。它不會分析、沒有意識，也不知道自己在做什麼。<span class="cite">p.45</span></p>
+<p>例子是八哥辨識：輸入一張照片，輸出三個數字，分別代表土八哥、白尾八哥、家八哥的分數。生成式 AI 也是同一種機器人，只是輸入換成 prompt，輸出換成圖片或文字。<span class="cite">p.46–51</span></p>
+<p>為什麼大家想做生成式 AI？一是讓電腦創作；二是圖靈在 1950 年提出的問題：能不能讓人分不出對方是真人還是機器；三是費曼那句「我不能創造的，我就不懂」。<span class="cite">p.52–55</span></p>
+<h3 id="colab-與-jupyter-的基本功">Colab 與 Jupyter 的基本功</h3>
+<p>Colab 是 Google 的雲端版 Jupyter Notebook，用 Google 帳號登入就能免費用 GPU 或 TPU。老師的程式在 GitHub 上，搜尋 <code>yenlung</code> 就能打開，記得「在雲端硬碟中儲存副本」再修改。<span class="cite">p.57–63</span></p>
+<p>幾個常用技巧<span class="cite">p.69–108</span>：</p>
+<ul><li><code>shift + enter</code> 執行儲存格，<code>shift + tab</code> 看函式說明，<code>TAB</code> 自動補完。</li><li><code>%</code> 開頭是魔術指令，例如 <code>%matplotlib inline</code>；<code>!</code> 開頭直接執行系統指令，例如 <code>!pwd</code>。</li><li><code>plt.plot(X, Y)</code> 畫折線圖；<code>zip(X, Y)</code> 把兩串資料配對，<code>zip(*points)</code> 反過來拆開。</li><li>文字儲存格用 Markdown 寫筆記，支援 LaTeX 數學式，例如 <span class="math">\(f(x)=x^2\)</span>。</li><li><code>ipywidgets</code> 的 <code>interact</code> 可以把任何函式變成有滑桿的互動介面。</li></ul>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>呆萌型 AI 機器人</strong>：老師對 AI 模型的比喻。它只會把輸入轉成輸出，不知道自己在做什麼，所以要由人設計好問題。</li><li><strong>函數學習機</strong>：同一個概念的另一種說法，AI 模型就是一個要學出來的函數 <span class="math">\(f_\theta\)</span>。</li><li><strong>AI Agent</strong>：教 AI 用我們做事的方法完成任務，是整學期的終點。</li><li><strong>Colab</strong>：Google 的雲端 Jupyter Notebook，免安裝、可以用免費 GPU。</li><li><strong>魔術指令</strong>：Jupyter 裡以 <code>%</code> 開頭的特殊指令，例如 <code>%timeit</code> 量執行時間。</li><li><strong>Markdown</strong>：用簡單符號排版文字的語法，這個網站的筆記也是用它寫的。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>投影片沒有出作業。</p>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p>本週先建立「AI 是呆萌型機器人」的觀念，<a href="w02-neural-network-basics.html">W02 神經網路的概念</a> 接著說明這台機器人裡面是怎麼運作的。課程地圖裡的 AI Agent，要到 <a href="w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a> 才正式登場。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>老師說各家大型語言模型的基礎差不多，那實際用起來的差異是從哪裡來的？</li><li>「會取代你的是會用 AI 的人」這句話，在懂原理之後要怎麼重新解讀？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w02-neural-network-basics.html">W02 神經網路的概念</a><a class="chip chip-rel" href="../notes/w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a></div></section><nav class="prevnext"><span></span><a class="next" href="../notes/w02-neural-network-basics.html"><small>下一週</small>神經網路的概念</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#這門課怎麼進行">這門課怎麼進行</a></li><li class="l3"><a href="#為什麼要強調原理">為什麼要強調原理</a></li><li class="l3"><a href="#課程地圖-從-chat-bot-到-ai-agent">課程地圖：從 Chat Bot 到 AI Agent</a></li><li class="l3"><a href="#現代-ai-是-呆萌型-ai-機器人">現代 AI 是「呆萌型 AI 機器人」</a></li><li class="l3"><a href="#colab-與-jupyter-的基本功">Colab 與 Jupyter 的基本功</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

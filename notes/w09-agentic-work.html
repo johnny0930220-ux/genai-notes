@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W09 換你當老闆 · 生成式 AI 課程筆記</title>
+<meta name="description" content="從「問 AI」變成「交辦給 AI」：靠 harness 和員工手冊，讓 AI Agent 真的動手把工作做完。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html" aria-current="page"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 9 週</p><h1>換你當老闆</h1><p class="summary">從「問 AI」變成「交辦給 AI」：靠 harness 和員工手冊，讓 AI Agent 真的動手把工作做完。</p><div class="chips"><a class="chip" href="../keywords.html#ai-agent">AI Agent</a><a class="chip" href="../keywords.html#harness">Harness</a><a class="chip" href="../keywords.html#tool-use">Tool Use</a><a class="chip" href="../keywords.html#mcp">MCP</a><a class="chip" href="../keywords.html#skills">Skills</a><a class="chip" href="../keywords.html#agents-md">AGENTS.md</a><a class="chip" href="../keywords.html#agentic-ai">Agentic AI</a><a class="chip" href="../keywords.html#llm-wiki">LLM Wiki</a></div><p class="source">資料來源：課堂投影片《09 換你當老闆》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>從「問 AI」到「交辦給 AI」：你出一張嘴，AI 來完成，換你當老闆。</p></blockquote>
+<h3 id="從-問-ai-到-交辦給-ai">從「問 AI」到「交辦給 AI」</h3>
+<p>本週投影片的副標題是「Agentic Work 與 AI 工作現場」。上週用 AISuite 手刻 Reflection、Tool Use、Planning，還是有點麻煩，完全沒有當老闆的感覺。這週的重點是把 AI 當員工來交辦工作。<span class="cite">p.2–6</span></p>
+<p>投影片用「整理桌面」當例子。只用聊天的 LLM 時，AI 會請你把 87 個檔名貼給它，然後提出 5 類的分類建議；接下來建資料夾、一個一個拖檔案，全都是你自己做。也就是 <strong>AI 出一張嘴，事情都你在做</strong>，因為它「沒有手」。<span class="cite">p.7–8</span></p>
+<p>如果給 AI 處理檔案的工具（就是 Tool Use），情況就反過來：AI 自己打開資料夾看檔案、先提出計畫，你說可以，它就建資料夾、搬檔案、回報結果。變成你出一張嘴，AI 來完成，你就是「慣老闆」。<span class="cite">p.9–10</span></p>
+<p>兩種模式的差別<span class="cite">p.11</span>：</p>
+<ul><li><strong>對話式（Chat）</strong>：你在問問題，AI 像顧問；一問一答、你全程在場；它只碰得到對話框裡的文字；你拿到的是一段回答。</li><li><strong>代理式（Agentic）</strong>：你在交辦一件工作，AI 像員工或同事；它自己做多個步驟、你可以離開；它碰得到檔案、瀏覽器和工具；你拿到的是一份成品。</li></ul>
+<h3 id="harness-讓-ai-動手的工作裝備">Harness：讓 AI 動手的工作裝備</h3>
+<p>LLM 本身只會生成文字，不會自己開資料夾、改檔案，也不能自己上網查最新資料。會「動手」靠的是課程核心公式 AI Agent = AI Model + Harness：模型是大腦，負責理解、規劃、判斷和生成；harness 是工作裝備，負責把模型說的「我要開這個檔案」真的執行，再把結果回報給模型。<span class="cite">p.12–14</span></p>
+<p>上個單元其實就做過 harness 了，只是現在改由產品幫我們做好<span class="cite">p.15</span>：</p>
+<ul><li>工具：以前是自己寫 Python 函數，現在產品直接提供讀寫檔、終端機、搜尋。</li><li>規則：以前把 system prompt 寫在程式裡，現在用 <code>CLAUDE.md</code> 或 <code>AGENTS.md</code>。</li><li>錯誤：以前要自己處理錯誤和重試，現在產品幫你處理。</li></ul>
+<p>一個完整的 harness 包含：有自己電腦（沙盒）的<strong>工作環境</strong>、讀寫檔案和瀏覽器等<strong>工具</strong>、接上 Gmail 和行事曆等 App 的<strong>連接器（MCP）</strong>、用一個資料夾加一份 <code>SKILL.md</code> 教它標準作業流程的<strong>技能（Skills）</strong>、每次上工前先讀的<strong>規則檔</strong>，以及時間到就自己開工的<strong>排程</strong>。投影片的結論是：模型大家都差不多，決定好不好用的是 harness。<span class="cite">p.16–17</span></p>
+<h3 id="當一個會交辦的好老闆">當一個會交辦的好老闆</h3>
+<p>好老闆通常要講清楚三件事：<strong>要什麼成品</strong>（做完拿到什麼、放在哪、什麼格式）、<strong>怎麼算做完</strong>（要怎麼驗收）、<strong>有什麼限制</strong>（哪些能動、哪些不能動）。重點就是不要讓 AI 猜。<span class="cite">p.18</span></p>
+<p>同樣是整理桌面，爛的交辦只有一句「幫我整理桌面」。好的交辦會講清楚：要整理哪個資料夾、依用途分類、資料夾用中文命名、不能刪檔案、看不出用途的先放「待確認」、動手前先給我看計畫、做完列出每個檔案搬到哪裡。<span class="cite">p.19</span></p>
+<h3 id="專案資料夾與員工手冊">專案資料夾與員工手冊</h3>
+<p>能做「專案型」AI Agent 的工具有好幾家，投影片列出 ChatGPT、Claude、Gemini 等產品，並區分了開源、可用開源模型和純雲端等類型（投影片此處文字順序較亂，各工具的對應看不清楚）。<span class="cite">p.20</span></p>
+<p>做法通常是開一個<strong>專案資料夾</strong>，讓 AI 有權限存取裡面的東西，再寫一本<strong>員工手冊</strong>：<code>CLAUDE.md</code> 是 Claude 專用，<code>AGENTS.md</code> 是一般通用的寫法。老話一句，這種規格書是我們和 AI 一起討論出來的；名字也不一定要這樣取，只要跟 AI 說先讀指定的手冊就好。<span class="cite">p.21–22</span></p>
+<p>當然可以一直在同一個對話裡做專案，但對話會越來越長，換一台電腦也讀不到。所以每次開新對話，就先請 AI 讀員工手冊；手冊不用一次寫完美，可以持續改。<span class="cite">p.23–24</span></p>
+<h3 id="專案範例">專案範例</h3>
+<p>投影片展示了幾個實際的專案資料夾<span class="cite">p.25–31</span>：</p>
+<ul><li><strong>「呆一布講義」</strong>：看起來很複雜，其實結構很簡單：<code>CLAUDE.md</code>、整理想法的 <code>ideas</code>、放小插圖的 <code>assets</code>、<code>slide_notes</code>，以及最終簡報 <code>presentation/index.html</code>。做出來的成果就是課程講義網站，投影片標註這是「今天的作業」。<span class="cite">p.26–28</span></li><li><strong>呆一布粉專貼文工作室</strong>：每天產出一篇貼文。<span class="cite">p.29–30</span></li><li><strong>圖像風格轉換專案</strong>。<span class="cite">p.31</span></li></ul>
+<h3 id="karpathy-的-llm-wiki">Karpathy 的 LLM Wiki</h3>
+<p>最後回到 Karpathy 的 LLM Wiki，簡單說就是打造自己的 Wikipedia：你找的資料放進 <code>raw</code>，教 AI 怎麼根據這些檔案產生或修改 <code>wiki</code> 裡的檔案，再用 <code>index.md</code> 當入口。投影片也附上 Karpathy 的 Gist，以及別人做的個人化版本 Farzapedia。<span class="cite">p.32–35</span></p>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>Agentic AI</strong>：代理式的 AI 用法，把整件工作交辦給 AI，讓它自己多步驟完成並交出成品。</li><li><strong>Harness</strong>：模型以外的工作裝備，負責把模型想做的動作真的執行，再把結果回報給模型。</li><li><strong>連接器（MCP）</strong>：讓 AI 接上 Gmail、行事曆、雲端硬碟等外部 App 的方式。</li><li><strong>Skills</strong>：一個資料夾加一份 <code>SKILL.md</code>，教 AI 某件事的標準作業流程。</li><li><strong>AGENTS.md</strong>：通用的員工手冊規則檔，AI 每次上工前先讀；Claude 專用的版本叫 <code>CLAUDE.md</code>。</li><li><strong>專案資料夾</strong>：開放給 AI 存取的工作資料夾，專案的檔案和規則都放在這裡。</li><li><strong>沙盒</strong>：harness 給 AI 的工作環境，等於它自己的一台電腦，可以存檔、跑程式。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>Homework 9：建立一個自己的 <code>AGENTS.md</code> 或 <code>CLAUDE.md</code>。到期時間是 2026 年 11 月 16 日（週一）23:59。（依課程平台作業說明）</p>
+<p>要做的事是設計一個自己的小專案，寫好對應的 <code>AGENTS.md</code> 或 <code>CLAUDE.md</code>，讓 AI 看得懂這個專案的規則、結構和開發方式，最後上傳到 GitHub，而且要有一個實際瀏覽得到的網頁。（依課程平台作業說明）</p>
+<p>和之前的 Vibe Coding 不一樣：Vibe Coding 重點是把網頁做出來；這次重點是建立一套規則，之後照同一套方式就能很快做出新的頁面或內容，例子就是課堂上的「呆一布講義」，也就是投影片 p.28 標成「今天的作業」的那個網站。（依課程平台作業說明）</p>
+<p>四個步驟：</p>
+<ol><li><strong>決定小專案</strong>：例如課程講義網站、個人知識庫、主題介紹網站、筆記整理網站、作品展示網站、LLM Wiki 網站，不一定要做 LLM Wiki。</li><li><strong>寫 <code>AGENTS.md</code> 或 <code>CLAUDE.md</code></strong>：可以寫專案目的、網頁整體風格、頁面結構、新增內容的格式、檔案命名和放置方式，以及 AI 修改或新增內容時要遵守的規則。重點是 AI 讀完就知道這個專案該怎麼繼續做下去。</li><li><strong>照規則用 AI 開發網頁</strong>：至少要有一個能正常瀏覽的頁面。</li><li><strong>上傳到 GitHub</strong>：用 GitHub Pages 或其他方式讓網頁可以實際瀏覽。</li></ol>
+<p>繳交內容包括：專案簡介、GitHub Repository 連結、網頁連結、<code>AGENTS.md</code> 或 <code>CLAUDE.md</code>，以及一段簡短說明，講之後要新增頁面或內容時，自己設計的規則可以怎麼幫 AI 繼續完成。說明用 Word 寫好轉成 PDF，最後交兩個檔案：作業說明 PDF 和 <code>AGENTS.md</code>／<code>CLAUDE.md</code>。（依課程平台作業說明）</p>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p><a href="w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a> 用 AISuite 自己手刻 Reflection、Tool Use、Planning，本週改用現成產品，把當時自己寫的工具、system prompt 和錯誤處理都交給 harness。最後的 LLM Wiki 在 <a href="w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a> 介紹過，本週把它放進「專案資料夾＋規則檔」的脈絡裡再看一次。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>交辦時說清楚「成品、驗收、限制」三件事，要寫到多細才夠？太細會不會反而綁手綁腳？</li><li>如果模型大家都差不多，那我自己的 <code>AGENTS.md</code> 要怎麼寫，才能讓同一個模型更好用？</li><li>讓 AI 能碰檔案和瀏覽器之後，哪些事情一定要它「先給我看計畫」再動手？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a><a class="chip chip-rel" href="../notes/w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w08-ai-agent-patterns.html"><small>上一週</small>教 AI 做事的方法</a><span></span></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#從-問-ai-到-交辦給-ai">從「問 AI」到「交辦給 AI」</a></li><li class="l3"><a href="#harness-讓-ai-動手的工作裝備">Harness：讓 AI 動手的工作裝備</a></li><li class="l3"><a href="#當一個會交辦的好老闆">當一個會交辦的好老闆</a></li><li class="l3"><a href="#專案資料夾與員工手冊">專案資料夾與員工手冊</a></li><li class="l3"><a href="#專案範例">專案範例</a></li><li class="l3"><a href="#karpathy-的-llm-wiki">Karpathy 的 LLM Wiki</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

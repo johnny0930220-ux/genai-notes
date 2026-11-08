@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W07 讓 AI 看懂你的世界 · 生成式 AI 課程筆記</title>
+<meta name="description" content="RAG 先找出相關資料再交給 LLM 回答；LLM Wiki 則讓 AI 自己整理知識庫。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html" aria-current="page"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 7 週</p><h1>讓 AI 看懂你的世界</h1><p class="summary">RAG 先找出相關資料再交給 LLM 回答；LLM Wiki 則讓 AI 自己整理知識庫。</p><div class="chips"><a class="chip" href="../keywords.html#rag">RAG</a><a class="chip" href="../keywords.html#embedding">embedding</a><a class="chip" href="../keywords.html#metadata">metadata</a><a class="chip" href="../keywords.html#kv-cache">KV-Cache</a><a class="chip" href="../keywords.html#llm-wiki">LLM Wiki</a><a class="chip" href="../keywords.html#context-engineering">Context Engineering</a></div><p class="source">資料來源：課堂投影片《07 讓 AI 看懂你的世界》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>RAG 其實就是 Context Engineering：提供正確的資訊，只是改成讓電腦自己去找。</p></blockquote>
+<h3 id="rag-的核心-embedding-模型">RAG 的核心：embedding 模型</h3>
+<p>寫 prompt 要給「正確的資訊」，RAG（Retrieval-Augmented Generation）就是讓電腦自己去找這些資訊。老師再次強調：要理解原理，不要被大字彙迷惑。<span class="cite">p.3–5</span></p>
+<p>關鍵是一個 embedding 模型，它本質上也是語言模型，把一段文字轉成某個維度的向量，代表這段文字抽象的意思。<span class="cite">p.6</span></p>
+<p>這類模型常用<strong>對比學習</strong>訓練：問題和正確段落的向量要越近越好，和不相關段落的向量要越遠越好。有些模型會在問題前加 <code>query:</code>、在內容前加 <code>passage:</code>，但這種前綴沒有通用寫法。<span class="cite">p.7–9</span></p>
+<h3 id="資料要怎麼切">資料要怎麼切</h3>
+<p>最傳統的做法是把所有檔案丟進一個資料夾，自動切成固定長度的文字塊，例如每塊 500 字、重疊 50 字。但要切多大、法規要不要一條一條切、要重疊多少，都需要考慮。<span class="cite">p.10–12</span></p>
+<p>比較新的做法是<strong>自己切成想要的樣子</strong>。每份文件分兩部分：真正拿去做 embedding 的文字，以及 metadata，例如標題、來源網址、日期、分類。metadata 可以拿來做關鍵字搜尋或篩選，例如「不要管某位老師怎麼說」。<span class="cite">p.13–16</span></p>
+<h3 id="rag-的流程">RAG 的流程</h3>
+<ol><li>每份資料都用 embedding 模型算出代表向量，存成向量資料庫。<span class="cite">p.17–18</span></li><li>使用者提問時，問題也轉成向量。<span class="cite">p.19</span></li><li>比對哪些資料和問題最接近，通常不只取一筆，可能還要重新排序（reranking），或把前後文、整篇文章一起拿進來。<span class="cite">p.20–22</span></li><li>把找到的資料和原始問題一起放進新的 prompt，例如「請根據 {retrieved_chunks} 裡的資訊，回應使用者的問題：{question}」。<span class="cite">p.23–24</span></li></ol>
+<h3 id="真的需要-rag-嗎">真的需要 RAG 嗎</h3>
+<p>模型的上下文越來越長，全部塞進 prompt 不就好了？這就是 CAG 的想法：用 KV-Cache 技術先把資料的鍵值存起來，直接交給 LLM。<span class="cite">p.26–28</span></p>
+<h3 id="llm-的-記憶">LLM 的「記憶」</h3>
+<p>一個系統可以同時用好幾個向量資料庫。外面常說 LLM 有短期記憶和長期記憶：短期記憶就是這次的對話過程，下次就忘了，對話太長也會忘記前面；長期記憶的一種做法，是把過去的對話做成向量資料庫，也就是 RAG。<span class="cite">p.30–34</span></p>
+<h3 id="llm-wiki-讓-ai-整理你的知識庫">LLM Wiki：讓 AI 整理你的知識庫</h3>
+<p>2026 年 4 月 Karpathy 分享了用 LLM 建立個人知識庫的方法，概念是打造自己的 Wikipedia：<span class="cite">p.36–46</span></p>
+<ul><li><strong>資料匯入</strong>：把文章、論文等來源放進 <code>raw/</code>，讓 LLM 逐步「編譯」成一系列 <code>.md</code> 檔，包含摘要、反向連結和概念文章。</li><li><strong>檢視</strong>：用 Obsidian 當前端瀏覽，wiki 幾乎全部由 LLM 撰寫和維護。</li><li><strong>問答</strong>：wiki 夠大（約 100 篇、40 萬字）時，可以問複雜問題。他原本以為需要複雜的 RAG，但 LLM 自己維護的索引和摘要就夠用了。</li><li><strong>輸出與檢查</strong>：答案輸出成 Markdown、投影片或圖表，再歸檔回 wiki；也會請 LLM 做健檢，找出不一致或缺漏的資料。</li></ul>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>RAG</strong>：檢索增強生成，先找相關資料，再讓 LLM 根據資料回答。</li><li><strong>embedding 模型</strong>：把文字轉成代表向量的模型，意思相近的文字向量也相近。</li><li><strong>對比學習</strong>：讓相關的配對靠近、不相關的配對遠離的訓練方法。</li><li><strong>metadata</strong>：文字塊的附加資訊，例如來源、頁數、標題、日期。</li><li><strong>reranking</strong>：把檢索出來的多筆資料重新排序，挑出最相關的。</li><li><strong>KV-Cache</strong>：把注意力機制算過的 key 和 value 存起來重複使用。</li><li><strong>LLM Wiki</strong>：由 LLM 撰寫和維護的個人 Markdown 知識庫。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>打造自己的 RAG 系統<span class="cite">p.50–51</span>：</p>
+<ol><li>找一份有興趣的文件，例如某個規定或相機說明書，用 Vibe Coding 打包成一個個檔案，例如 <code>rag-data.zip</code>。</li><li>RAG 1：用自己的資料建立向量資料庫，打包成 <code>vector_embedding.zip</code>。</li><li>RAG 2：讀入並解壓縮向量資料庫，做出 RAG 強化的對話機器人。</li></ol>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p><a href="w06-build-your-chatbot.html">W06 打造自己的對話機器人</a> 的機器人只知道對話內容，本週讓它查得到外部資料。KV-Cache 用到 <a href="w05-transformer-attention.html">W05 AI 怎麼記得前面說過什麼？</a> 的 K 和 V。<a href="w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a> 會說明 RAG 其實也是一種 AI Agent。本週的 LLM Wiki 在 <a href="w09-agentic-work.html">W09 換你當老闆</a> 會放進「專案資料夾＋規則檔」的脈絡裡再看一次。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>文字塊切太大或太小，各會造成什麼問題？</li><li>LLM Wiki 和 RAG 適合的資料量分別大概是多少？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w05-transformer-attention.html">W05 AI 怎麼記得前面說過什麼？</a><a class="chip chip-rel" href="../notes/w06-build-your-chatbot.html">W06 打造自己的對話機器人</a><a class="chip chip-rel" href="../notes/w08-ai-agent-patterns.html">W08 教 AI 做事的方法</a><a class="chip chip-rel" href="../notes/w09-agentic-work.html">W09 換你當老闆</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w06-build-your-chatbot.html"><small>上一週</small>打造自己的對話機器人</a><a class="next" href="../notes/w08-ai-agent-patterns.html"><small>下一週</small>教 AI 做事的方法</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#rag-的核心-embedding-模型">RAG 的核心：embedding 模型</a></li><li class="l3"><a href="#資料要怎麼切">資料要怎麼切</a></li><li class="l3"><a href="#rag-的流程">RAG 的流程</a></li><li class="l3"><a href="#真的需要-rag-嗎">真的需要 RAG 嗎</a></li><li class="l3"><a href="#llm-的-記憶">LLM 的「記憶」</a></li><li class="l3"><a href="#llm-wiki-讓-ai-整理你的知識庫">LLM Wiki：讓 AI 整理你的知識庫</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W04 LLM 只是在猜下一個字？ · 生成式 AI 課程筆記</title>
+<meta name="description" content="文字生成 AI 就是一直預測下一個字，選字方式決定它有多隨機，prompt 要給正確資訊和清楚指引。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html" aria-current="page"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 4 週</p><h1>LLM 只是在猜下一個字？</h1><p class="summary">文字生成 AI 就是一直預測下一個字，選字方式決定它有多隨機，prompt 要給正確資訊和清楚指引。</p><div class="chips"><a class="chip" href="../keywords.html#next-token-prediction">next-token prediction</a><a class="chip" href="../keywords.html#幻覺">幻覺</a><a class="chip" href="../keywords.html#temperature">temperature</a><a class="chip" href="../keywords.html#top-p">top-p</a><a class="chip" href="../keywords.html#embedding">embedding</a><a class="chip" href="../keywords.html#transformer">transformer</a><a class="chip" href="../keywords.html#prompt-engineering">Prompt Engineering</a><a class="chip" href="../keywords.html#groq">Groq</a></div><p class="source">資料來源：課堂投影片《04 LLM 只是在猜下一個字？》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>文字生成 AI 只是預測下一個字的呆萌型 AI 機器人，訓練目標是把它變成「很會接話」的唬爛王。</p></blockquote>
+<h3 id="設計-用前面的字預測下一個字">設計：用前面的字預測下一個字</h3>
+<p>直覺上，對話機器人應該用「客戶說的話 → 客服的回覆」來訓練，但實際上不是。語言模型的設計是<strong>看前面的字，預測下一個字</strong>。這樣世界上所有句子都能拿來當訓練資料。<span class="cite">p.6–9</span></p>
+<p>但「今天天氣很好」裡，「天」後面可以接「天」也可以接「氣」，這不是函數。所以要用<strong>有記憶的</strong>神經網路，把前面所有字的資訊融合成一個向量，再預測下一個字，一路接下去。<span class="cite">p.10–15</span></p>
+<p>模型其實是幫字庫裡每個字打分數，再用 softmax 轉成機率。它不知道自己在說什麼，只是覺得下一個字放什麼最順。<span class="cite">p.16–20</span></p>
+<h3 id="rnn-與-transformer">RNN 與 Transformer</h3>
+<p>有記憶的神經網路有兩種：RNN 一個字一個字算，每次帶著上一步的記憶；Transformer 是 Google 想出的辦法，<strong>一次算出所有位置的記憶</strong>，可以平行計算。<span class="cite">p.23–27</span></p>
+<p>Transformer 讓每個字產生 Q、K、V 三個向量，用 Q 和每個 K 做內積得到注意力強度，經 softmax 後拿來加權 V。整個過程基本上就是矩陣乘法：<span class="cite">p.28–31</span></p>
+<div class="math-block">\[\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\]</div>
+<h3 id="幻覺是特點-不是錯誤">幻覺是特點，不是錯誤</h3>
+<p>Karpathy 在 2015 年的文章裡，讓 RNN 生成代數幾何、莎士比亞，課堂上也看到「紅樓夢生成器」，他把這些生成結果叫做 hallucinated（幻覺的）版本。<span class="cite">p.33–38</span></p>
+<p>他的看法是：LLM 是「作夢的機器」，幻覺就是它做的全部事情。幻覺可能對、可能錯，甚至無所謂對錯。我們真正不希望的，是 LLM <strong>助理</strong>在需要事實的時候產生幻覺。<span class="cite">p.39–40</span></p>
+<p>規模也很重要：GPT-2 有 15 億參數，GPT-3 有 1,750 億。人一輩子大約讀 10 億字，Llama 3 用了約 15T 的訓練資料，是人類一輩子的 1.5 萬倍，所以它什麼話都接得下去。<span class="cite">p.42–45</span></p>
+<h3 id="選字策略-temperature-top-k-top-p">選字策略：temperature、top-k、top-p</h3>
+<p>最基本的是依機率抽樣。softmax 有「贏者通吃」的效果，所以加上溫度 <span class="math">\(\tau\)</span> 調整：<span class="cite">p.52–57</span></p>
+<ul><li><span class="math">\(\tau &gt; 1\)</span>：拉近各字的機率，輸出更隨機。</li><li><span class="math">\(\tau &lt; 1\)</span>：拉開差距，輸出更固定。</li></ul>
+<p>實務上 LLM 的分數通常都接近 0，影響沒那麼大，常見設定是 <span class="math">\(\tau = 1\)</span>。<span class="cite">p.58</span></p>
+<p>機率低的字還是可能被抽到，導致胡言亂語。<strong>top-k</strong> 只從前 k 名選，但有時下一個字只有一種可能；<strong>top-p</strong>（nucleus sampling，ICLR 2020）從最高機率開始累加，加到超過 p 就停，只在這些字裡重新分配機率再抽。<span class="cite">p.59–63</span></p>
+<h3 id="embedding-給字一個有意義的向量">Embedding：給字一個有意義的向量</h3>
+<p>one-hot encoding 只是編號，沒有「意思」。我們希望每個字有一個有意義的特徵代表向量，叫 word embedding。<span class="cite">p.66–69</span></p>
+<p>做法是設計一個<strong>代理任務</strong>（pretext task），讓電腦必須「懂」輸入才能完成，再取中間隱藏層的輸出當 embedding。Word2Vec 用兩種任務：CBOW 用周圍的字預測中間的字，Skip-Gram 反過來。訓練完，相似的字會靠在一起，還能做出「國王 − 男人 + 女人 ≈ 皇后」這類運算。<span class="cite">p.75–80</span></p>
+<p>Transformer 有自己的 embedding 層，訓練時會一起學。<span class="cite">p.83</span></p>
+<h3 id="使用大型語言模型">使用大型語言模型</h3>
+<p>投影片列了五大商業模型（OpenAI、Google、Anthropic、xAI、Meta），以及開源模型。挑模型可以參考 Artificial Analysis 和 Arena 兩個評測網站，但最好自己設計幾個<strong>你很懂的</strong>測試 prompt，才能判斷回答好不好。<span class="cite">p.85–89</span></p>
+<p>開源模型可以用 LM Studio 或 Ollama 在自己電腦跑。以 4-bit 量化的 200 億參數模型為例，至少要 10GB 以上的記憶體，建議 16GB。不想自己跑，可以用 Groq 的免費 API 或 Ollama Cloud。<span class="cite">p.90–98</span></p>
+<h3 id="prompt-必殺技">Prompt 必殺技</h3>
+<p>寫好 prompt 只有兩個重點：<strong>正確的資訊</strong>和<strong>清楚的指引</strong>。必殺技是「和 AI 一起寫 prompt」：<span class="cite">p.100、p.105–109</span></p>
+<ol><li>先把只有你知道的內容告訴 AI。</li><li>請 AI 訪問你，問清楚還有哪些地方要釐清。</li><li>請 AI 幫忙補充、查證，最後整理成一份 prompt。</li></ol>
+<p>AI 生成的東西，不管是 prompt 還是成品，<strong>一定要自己讀過、改過</strong>。這個技巧在 Vibe Coding 也適用：先和 AI 討論，再請 AI 整理出規格。<span class="cite">p.110–111</span></p>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>next-token prediction</strong>：用前面的字預測下一個字，是語言模型的訓練方式。</li><li><strong>幻覺</strong>：LLM 生成的內容本質上都是「作夢」，可能對也可能錯。</li><li><strong>temperature</strong>：調整機率分布的參數，越高越隨機。</li><li><strong>top-p</strong>：只從累積機率達到 p 的那幾個字裡抽樣，也叫 nucleus sampling。</li><li><strong>embedding</strong>：把字或資料轉成有意義的特徵代表向量。</li><li><strong>代理任務</strong>：不是最終目標、而是為了訓練出好的 embedding 而設計的小任務。</li><li><strong>self-attention</strong>：每個字用自己的 Q 去和所有字的 K 比對，決定要參考多少其他字的資訊。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>和 AI 討論，共同設計一份可以直接交給不同 LLM 使用的完整 prompt。要交出最後的 prompt，說明哪些是自己告訴 AI 的、怎麼和 AI 討論；最後的 prompt 必須自己完全讀過並修改；至少在三個 LLM 試用並記錄心得。<span class="cite">p.113–114</span></p>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p><a href="w03-generative-ai-and-gan.html">W03 AI 為什麼每次都不一樣？</a> 最後提到依機率抽字，本週把它展開成完整的語言模型。Transformer 的細節在 <a href="w05-transformer-attention.html">W05 AI 怎麼記得前面說過什麼？</a> 會用線性代數再講一次；Groq 和 prompt 技巧則在 <a href="w06-build-your-chatbot.html">W06 打造自己的對話機器人</a> 實際用上。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>如果幻覺是 LLM 的本質，那要怎麼讓它在需要事實時比較可靠？（後面的 RAG 就是一個答案。）</li><li>top-p 設成 0.9 和 0.5，在寫作和寫程式時各自比較適合哪一種？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w03-generative-ai-and-gan.html">W03 AI 為什麼每次都不一樣？</a><a class="chip chip-rel" href="../notes/w05-transformer-attention.html">W05 AI 怎麼記得前面說過什麼？</a><a class="chip chip-rel" href="../notes/w06-build-your-chatbot.html">W06 打造自己的對話機器人</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w03-generative-ai-and-gan.html"><small>上一週</small>AI 為什麼每次都不一樣？</a><a class="next" href="../notes/w05-transformer-attention.html"><small>下一週</small>AI 怎麼記得前面說過什麼？</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#設計-用前面的字預測下一個字">設計：用前面的字預測下一個字</a></li><li class="l3"><a href="#rnn-與-transformer">RNN 與 Transformer</a></li><li class="l3"><a href="#幻覺是特點-不是錯誤">幻覺是特點，不是錯誤</a></li><li class="l3"><a href="#選字策略-temperature-top-k-top-p">選字策略：temperature、top-k、top-p</a></li><li class="l3"><a href="#embedding-給字一個有意義的向量">Embedding：給字一個有意義的向量</a></li><li class="l3"><a href="#使用大型語言模型">使用大型語言模型</a></li><li class="l3"><a href="#prompt-必殺技">Prompt 必殺技</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W05 AI 怎麼記得前面說過什麼？ · 生成式 AI 課程筆記</title>
+<meta name="description" content="拆解 RNN 和 Transformer 的記憶方式：QKV 注意力、位置編碼和讓網路更穩的設計。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html" aria-current="page"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 5 週</p><h1>AI 怎麼記得前面說過什麼？</h1><p class="summary">拆解 RNN 和 Transformer 的記憶方式：QKV 注意力、位置編碼和讓網路更穩的設計。</p><div class="chips"><a class="chip" href="../keywords.html#rnn">RNN</a><a class="chip" href="../keywords.html#transformer">transformer</a><a class="chip" href="../keywords.html#self-attention">self-attention</a><a class="chip" href="../keywords.html#position-encoding">position encoding</a><a class="chip" href="../keywords.html#layer-normalization">layer normalization</a><a class="chip" href="../keywords.html#vibe-coding">Vibe Coding</a></div><p class="source">資料來源：課堂投影片《05 AI 怎麼記得前面說過什麼？》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>Transformer 的注意力機制，說穿了就是矩陣乘一乘，再加一個 softmax。</p></blockquote>
+<h3 id="rnn-神經元其實很普通">RNN 神經元其實很普通</h3>
+<p>RNN 層和全連結層很像，差別是<strong>上一次的輸出 <span class="math">\(h_{t-1}\)</span> 會再傳回來</strong>，和這次的輸入 <span class="math">\(x_t\)</span> 一起決定輸出。拆開來看，RNN 神經元就是一般的神經元，只是多了一組處理「記憶」的權重。<span class="cite">p.3–8</span></p>
+<h3 id="線性代數-101">線性代數 101</h3>
+<p>矩陣的規則是「先列後行」，矩陣乘法 <span class="math">\(C=AB\)</span> 的 <span class="math">\(c_{ij}\)</span> 是 A 第 i 列和 B 第 j 行的內積。<span class="cite">p.10–12</span></p>
+<p>最重要的技巧：向量 <span class="math">\(x\)</span> 乘上矩陣 <span class="math">\(A\)</span>，結果是用 <span class="math">\(x\)</span> 的分量對 <span class="math">\(A\)</span> 的列向量做線性組合。Google 特別喜歡列向量，所以 Transformer 論文裡的矩陣都乘在後面。<span class="cite">p.13–14</span></p>
+<h3 id="qkv-注意力機制">QKV 注意力機制</h3>
+<p>2017 年 Google 發表〈Attention is All you Need〉，原本想取代 RNN，標題也看得出野心。<span class="cite">p.16</span></p>
+<p>概念是：有一段資訊 <span class="math">\(x_1, \dots, x_T\)</span>，現在進來一個問題 <span class="math">\(q\)</span>，要從資訊裡組出最適合的代表向量 <span class="math">\(h\)</span>。每個 <span class="math">\(x_t\)</span> 有自己的 key <span class="math">\(k_t\)</span> 和 value <span class="math">\(v_t\)</span>：<span class="cite">p.17–26</span></p>
+<ol><li>用 <span class="math">\(q\)</span> 和每個 <span class="math">\(k_t\)</span> 做內積，得到注意力強度 <span class="math">\(e_t\)</span>。</li><li>經過 softmax 得到權重 <span class="math">\(\alpha_t\)</span>。</li><li><span class="math">\(h = \alpha_1 v_1 + \alpha_2 v_2 + \cdots + \alpha_T v_T\)</span>。</li></ol>
+<p><strong>Self-attention</strong> 就是每個字輪流當 <span class="math">\(q\)</span>。Q、K、V 都是輸入 <span class="math">\(X\)</span> 乘上學來的矩陣，可以一次算完：<span class="math">\(Q = XW^Q\)</span>、<span class="math">\(K = XW^K\)</span>、<span class="math">\(V = XW^V\)</span>。<span class="cite">p.27–35</span></p>
+<h3 id="為什麼要除以-sqrt-d_k">為什麼要除以 <span class="math">\(\sqrt{d_k}\)</span></h3>
+<p>softmax 是「贏者通吃」，分數差一點，機率就差很多，權重會被放大得不合理。解法是把所有分數除以一個夠大的數，拉回 0 附近。原論文寫 <span class="math">\(\sqrt{d_k}\)</span>，老師說其實放一個適當的數就可以，也能當成超參數調。<span class="cite">p.31–33</span></p>
+<p>注意力也不只一種，可以同時用好幾組 <span class="math">\(W^Q, W^K, W^V\)</span>，這就是 multi-head attention。Decoder 的輸入還沒生成的部分會被 mask 住。<span class="cite">p.36–40</span></p>
+<h3 id="position-encoding-補上順序">Position encoding：補上順序</h3>
+<p>RNN 是真的一個字一個字讀，Transformer 為了平行計算一次做完，所以<strong>不知道字的先後順序</strong>。解法是在每個字的 embedding 加上位置向量。<span class="cite">p.42</span></p>
+<p>老師用進位系統來解釋：十進位的個位數變化最快，越高位變化越慢。原論文用 sin 和 cos 做出一個「連續、有週期、數值不大」的奇幻進位系統，低位數頻率快、高位數頻率慢。sin 和 cos 一組，剛好是單位圓上的一點，可以想成快慢不同的時鐘。<span class="cite">p.43–50</span></p>
+<h3 id="讓-transformer-更穩">讓 Transformer 更穩</h3>
+<p>Transformer 用了兩個讓深層網路更穩定的技術<span class="cite">p.52–65</span>：</p>
+<ul><li><strong>Residual 連結</strong>（ResNet 的設計）：輸出從 <span class="math">\(\ell(z)\)</span> 變成 <span class="math">\(z + \ell(z)\)</span>，每層只需要學「還沒學到的部分」，loss 曲面也更平順。</li><li><strong>Normalization</strong>：原版用 layer normalization，Llama 等新模型改用 RMSNorm，Meta 最近還提出用 Dynamic Tanh 取代 normalization。</li></ul>
+<p>Transformer 不只處理文字，圖像、聲音、時間序列都可以。文字生圖時，也是用注意力機制把文字的意思「混入」生成過程。<span class="cite">p.66–67</span></p>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>RNN</strong>：遞歸神經網路，每一步都帶著上一步的輸出當記憶。</li><li><strong>Q、K、V</strong>：query、key、value，分別代表「問題」「索引」「內容」的特徵向量。</li><li><strong>self-attention</strong>：每個字都當一次 query，從整段文字組出自己的新表示。</li><li><strong>multi-head attention</strong>：同時用好幾組注意力，各自關注不同的關係。</li><li><strong>position encoding</strong>：加在 embedding 上的位置資訊，讓 Transformer 知道字的順序。</li><li><strong>residual 連結</strong>：把輸入直接加到輸出，讓網路可以疊得很深。</li><li><strong>layer normalization</strong>：把一層的輸出調整成平均 0、標準差 1，再乘上學來的參數。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>和 AI 討論出 Vibe Coding 程式規格書，做一個互動網頁<span class="cite">p.69–85</span>：</p>
+<ol><li>先和 AI 討論，產生這個 App 的「規格書」。可以跟 AI 說「先不要寫程式，問我一些問題，幫我把需求釐清」。</li><li>用規格書產生一個 <code>index.html</code>，圖片放在 <code>assets</code> 資料夾。</li><li>上傳到 GitHub，用 GitHub Pages 讓全世界看到，網址是 <code>https://帳號.github.io/repo名稱/</code>。</li></ol>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p>本週把 <a href="w04-next-token.html">W04 LLM 只是在猜下一個字？</a> 裡帶過的 Transformer 完整拆開。KV 的概念在 <a href="w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a> 的 KV-Cache 會再出現；這週的 GitHub Pages 流程，也是這個筆記網站的發布方式。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>位置編碼為什麼用「加」的，而不是接在 embedding 後面？</li><li>文字生圖時，Q 來自圖、K 和 V 來自文字，反過來可以嗎？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w04-next-token.html">W04 LLM 只是在猜下一個字？</a><a class="chip chip-rel" href="../notes/w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w04-next-token.html"><small>上一週</small>LLM 只是在猜下一個字？</a><a class="next" href="../notes/w06-build-your-chatbot.html"><small>下一週</small>打造自己的對話機器人</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#rnn-神經元其實很普通">RNN 神經元其實很普通</a></li><li class="l3"><a href="#線性代數-101">線性代數 101</a></li><li class="l3"><a href="#qkv-注意力機制">QKV 注意力機制</a></li><li class="l3"><a href="#為什麼要除以-sqrt-d_k">為什麼要除以 <span class="math">\(\sqrt{d_k}\)</span></a></li><li class="l3"><a href="#position-encoding-補上順序">Position encoding：補上順序</a></li><li class="l3"><a href="#讓-transformer-更穩">讓 Transformer 更穩</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>

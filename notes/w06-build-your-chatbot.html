@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>W06 打造自己的對話機器人 · 生成式 AI 課程筆記</title>
+<meta name="description" content="用 system prompt 給 LLM 人設，再用 AISuite 寫程式，打造自己的對話機器人。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到內文</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false">目錄</button>
+  <a class="brand" href="../index.html">生成式 AI 課程筆記</a>
+  <button class="theme-btn" type="button" aria-label="切換深淺色">深淺</button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand brand-side" href="../index.html">生成式 AI 課程筆記</a>
+    <div class="search">
+      <input type="search" id="q" placeholder="搜尋筆記…" aria-label="搜尋筆記" autocomplete="off">
+      <ul id="results" class="results" hidden></ul>
+    </div>
+    <nav aria-label="網站目錄"><ul class="nav-extra"><li><a href="../index.html">首頁</a></li><li><a href="../keywords.html">關鍵字索引</a></li><li><a href="../about.html">關於這個網站</a></li></ul><p class="nav-label">每週筆記</p><ul class="nav-weeks"><li><a href="../notes/w01-learn-ai-without-anxiety.html"><span class="wk">W01</span><span>如何不焦慮地學 AI</span></a></li><li><a href="../notes/w02-neural-network-basics.html"><span class="wk">W02</span><span>神經網路的概念</span></a></li><li><a href="../notes/w03-generative-ai-and-gan.html"><span class="wk">W03</span><span>AI 為什麼每次都不一樣？</span></a></li><li><a href="../notes/w04-next-token.html"><span class="wk">W04</span><span>LLM 只是在猜下一個字？</span></a></li><li><a href="../notes/w05-transformer-attention.html"><span class="wk">W05</span><span>AI 怎麼記得前面說過什麼？</span></a></li><li><a href="../notes/w06-build-your-chatbot.html" aria-current="page"><span class="wk">W06</span><span>打造自己的對話機器人</span></a></li><li><a href="../notes/w07-rag-and-llm-wiki.html"><span class="wk">W07</span><span>讓 AI 看懂你的世界</span></a></li><li><a href="../notes/w08-ai-agent-patterns.html"><span class="wk">W08</span><span>教 AI 做事的方法</span></a></li><li><a href="../notes/w09-agentic-work.html"><span class="wk">W09</span><span>換你當老闆</span></a></li></ul></nav>
+  </aside>
+  <main id="main" class="content">
+    <article>
+<header class="note-head"><p class="eyebrow">第 6 週</p><h1>打造自己的對話機器人</h1><p class="summary">用 system prompt 給 LLM 人設，再用 AISuite 寫程式，打造自己的對話機器人。</p><div class="chips"><a class="chip" href="../keywords.html#system-prompt">system prompt</a><a class="chip" href="../keywords.html#prompt-engineering">Prompt Engineering</a><a class="chip" href="../keywords.html#aisuite">AISuite</a><a class="chip" href="../keywords.html#groq">Groq</a><a class="chip" href="../keywords.html#幻覺">幻覺</a><a class="chip" href="../keywords.html#負責任使用-ai">負責任使用 AI</a></div><p class="source">資料來源：課堂投影片《06 打造自己的對話機器人》，文中（p.12）代表投影片頁碼。</p></header><h2 id="課堂重點">課堂重點</h2>
+<blockquote class="callout"><p>最重要的 AI 使用技巧：一定要讀它寫了什麼。</p></blockquote>
+<h3 id="在自己電腦跑模型">在自己電腦跑模型</h3>
+<p>LM Studio 和 Ollama 都能在自己電腦上跑開源模型。挑機器時要看 GPU 的 VRAM；Mac 用 unified memory，記憶體多大，基本上就有多少 VRAM 可用。以 4-bit 量化的 200 億參數模型來說，模型本身約 10GB，再加 1～2GB 比較保險。<span class="cite">p.3–10</span></p>
+<p>另外兩點：記憶體頻寬會影響生成速度；同樣大小的模型，MoE 架構跑得比較快。不想自己跑的話，Groq 有免費 API，Ollama Cloud 可以跑超大型開源模型。<span class="cite">p.11–13</span></p>
+<h3 id="負責任使用-ai">負責任使用 AI</h3>
+<p>Karpathy 認為幻覺是 LLM 最偉大的特點。老師補充，某種程度上人的幻覺更嚴重：AI 會的，我們就以為自己也會了。<span class="cite">p.15–17</span></p>
+<p>使用者要負的責任包括：內容有沒有侵權、文獻對不對、品質符不符合需求。資安也要注意：就算對話不拿去訓練，存在雲端的原始對話仍可能因為帳號被盜或系統漏洞外洩，所以個資和機密不要拿去問。完全在本機執行，就能避開這一層風險。<span class="cite">p.22–24</span></p>
+<p>關於中國的模型，老師認為審查不一定是最大的問題，反而是訓練資料中簡體中文比例可能更高，長期使用會在不知不覺中影響想法和價值觀。另外有研究指出，加上「思考」的模型在劫持思維鏈（H-CoT）攻擊下，拒絕回答犯罪問題的比例會大幅下降。<span class="cite">p.27–30</span></p>
+<blockquote class="callout"><p>AI 生成的都是「幻覺」。沒有寫錯，不代表寫對了我們的意思。要先讀懂，才能教 AI 用你的方法做事。</p></blockquote>
+<h3 id="system-prompt-給-llm-一個人設">System prompt：給 LLM 一個人設</h3>
+<p>對話中有三個角色：<code>system</code>、<code>user</code>、<code>assistant</code>。<code>system</code> 就是 LLM 的人設，使用者通常看不到。<span class="cite">p.36–37</span></p>
+<p>老師最有名的例子是「員瑛式思考」機器人：不管使用者遇到什麼事，都用第一人稱、社群貼文的口吻說明為什麼這超幸運，最後以「完全是 Lucky Vicky 呀！」結尾。<span class="cite">p.39–43</span></p>
+<p>想做可以一直聊下去的版本，prompt 就會變長，例如分成「人生哲學」和「歷史」兩部分，並規定像朋友聊天、200 字以內、不要條列。做法和 W04 的必殺技一樣：先和 AI 討論、請 AI 收集資料，最後請 AI 用 Markdown 寫成完整的 system prompt。<span class="cite">p.44–48</span></p>
+<p>收集資料時，AI 給的書名可能不對，要自己查證修正。老師提醒：不要覺得 AI 說的一定對，也不要笑它不知道你知道的事，你們是夥伴。<span class="cite">p.47</span></p>
+<h3 id="更多人設範例">更多人設範例</h3>
+<ul><li><strong>小編助理</strong>：幫忙寫社群貼文，寫出來真的很像業配文，內容大致正確，但仍有需要修改的地方。<span class="cite">p.51–57</span></li><li><strong>AI 選系諮商師</strong>：只推薦應用數學系的「業配 AI」。第一版 ChatGPT 會自曝身分，要修改 prompt。<span class="cite">p.58–64</span></li><li><strong>股票分析</strong>：有論文用 ChatGPT 做情緒分析來預測股價，prompt 其實不複雜，但老師也反問：你真的相信這樣的機器人嗎？<span class="cite">p.49–50</span></li></ul>
+<h3 id="用-aisuite-寫程式">用 AISuite 寫程式</h3>
+<p>AISuite 是吳恩達老師推出的套件，可以用統一的寫法呼叫不同供應商的模型，切換模型只要改一個字串。API 金鑰放在 Colab 的密鑰裡，用 <code>userdata.get</code> 讀入。<span class="cite">p.66–74</span></p>
+<pre><code class="lang-python">import aisuite as ai
+client = ai.Client()
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;人設&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;使用者輸入&quot;},
+]
+response = client.chat.completions.create(model=&quot;openai:gpt-4o&quot;, messages=messages)
+reply = response.choices[0].message.content</code></pre>
+<p>對話歷史就是一串 <code>role</code> 和 <code>content</code> 的清單，每次都整串送進去，模型才「記得」前面說過什麼。<span class="cite">p.75–79</span></p>
+<h2 id="重要名詞">重要名詞</h2>
+<ul><li><strong>system prompt</strong>：設定 LLM 人設和規則的指令，在對話中扮演 <code>system</code> 角色。</li><li><strong>AISuite</strong>：用同一套寫法呼叫多家 LLM 的 Python 套件。</li><li><strong>Groq</strong>：提供 LPU 晶片和免費 API 的 AI 公司，主要加速模型的推論階段。</li><li><strong>MoE</strong>：混合專家架構，同樣大小的模型跑得比較快。</li><li><strong>量化</strong>：用較少位元存模型參數，例如 4-bit，可以大幅降低記憶體需求。</li></ul>
+<h2 id="本週作業">本週作業</h2>
+<p>投影片沒有寫出作業題目。課堂實作是用 AISuite 打造有人設的對話機器人，範例程式在 <code>yenlung.me/AI04</code>。<span class="cite">p.72</span></p>
+<h2 id="和其他週的關係">和其他週的關係</h2>
+<p>本週把 <a href="w04-next-token.html">W04 LLM 只是在猜下一個字？</a> 的 prompt 必殺技用在 system prompt 上。對話機器人只靠對話歷史記事情，<a href="w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a> 會用 RAG 讓它查得到外部資料。</p>
+<h2 id="延伸思考">延伸思考</h2>
+<ul><li>system prompt 寫得越長越好嗎？什麼情況下會開始互相衝突？</li><li>對話歷史每次都整串送出，對話很長時要怎麼辦？</li></ul><section class="related"><h2>相關筆記</h2><div class="chips"><a class="chip chip-rel" href="../notes/w04-next-token.html">W04 LLM 只是在猜下一個字？</a><a class="chip chip-rel" href="../notes/w07-rag-and-llm-wiki.html">W07 讓 AI 看懂你的世界</a></div></section><nav class="prevnext"><a class="prev" href="../notes/w05-transformer-attention.html"><small>上一週</small>AI 怎麼記得前面說過什麼？</a><a class="next" href="../notes/w07-rag-and-llm-wiki.html"><small>下一週</small>讓 AI 看懂你的世界</a></nav>
+    </article>
+    <footer class="site-foot">整理自課堂投影片，以自己的話改寫。原始投影片與圖片版權屬於授課老師。</footer>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="本頁目錄"><p class="toc-title">本頁目錄</p><ul><li class="l2"><a href="#課堂重點">課堂重點</a></li><li class="l3"><a href="#在自己電腦跑模型">在自己電腦跑模型</a></li><li class="l3"><a href="#負責任使用-ai">負責任使用 AI</a></li><li class="l3"><a href="#system-prompt-給-llm-一個人設">System prompt：給 LLM 一個人設</a></li><li class="l3"><a href="#更多人設範例">更多人設範例</a></li><li class="l3"><a href="#用-aisuite-寫程式">用 AISuite 寫程式</a></li><li class="l2"><a href="#重要名詞">重要名詞</a></li><li class="l2"><a href="#本週作業">本週作業</a></li><li class="l2"><a href="#和其他週的關係">和其他週的關係</a></li><li class="l2"><a href="#延伸思考">延伸思考</a></li></ul></nav></aside>
+</div>
+<script>window.SITE_PREFIX = "../";</script>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.querySelector('article'),{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})"></script>
+</body>
+</html>
